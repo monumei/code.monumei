@@ -1,30 +1,15 @@
-export const defaultCode = `import { useEffect } from 'react'
+export const defaultCode = `
+import { Elysia } from 'elysia'
 
-type Node = {
-    tag: string
-    children?: Node[]
-}
-
-const create = (
-    tag: string,
-    children: Node[] = []
-): Node => ({
-    tag,
-    children
-})
-
-export const App = () => {
-    useEffect(() => {
-        const Card = create('card', [
-            create('title'),
-            create('text')
-        ])
-
-        console.log(Card)
-    }, [])
-
-    return <div>CHECK CONSOLE</div>
-}`
+new Elysia()
+  .get('/', () => ({
+    status: 'online',
+    version: '2026.0.0',
+    message: 'Happy New Year! 🚀'
+  }))
+  .listen(2026, ({ hostname, port }) => {
+    console.log('> [READY] 2026 is running at http://{hostname}:{port}')
+  })`
 
 export const themes = [
 	'andromeeda',
