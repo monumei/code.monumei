@@ -74,6 +74,16 @@ export const themes = [
 	'vitesse-light'
 ] as const
 
+export const fonts = [
+	'JetBrains Mono',
+	'Fira Code',
+	'IBM Plex Mono',
+	'Roboto Mono',
+	'Source Code Pro',
+	'Space Mono',
+	'Ubuntu Mono'
+] as const
+
 export const languages = [
 	'1c',
 	'1c-query',

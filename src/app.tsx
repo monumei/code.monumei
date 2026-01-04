@@ -6,7 +6,7 @@ import { Image, ArrowDownToLine, Brush, Minus, X, Square } from 'lucide-react'
 import { codeToHtml } from 'shiki'
 import { useLocalStorage } from 'react-use'
 
-import { defaultCode, languages, themes } from './constant'
+import { defaultCode, fonts, languages, themes } from './constant'
 import { isLight } from './utils/luma'
 import { compressImage } from './utils/compress'
 import clsx from 'clsx'
@@ -39,12 +39,12 @@ export default function ShikiEditor() {
 	const [isDragging, setIsDragging] = useState(false)
 	const dragStart = useRef({ x: 0, y: 0 })
 
-
+	const [viewScale, setViewScale] = useState(1)
 
 	useEffect(() => {
 		codeToHtml(code ? code + ' ' : '', {
 			lang: language ?? 'tsx',
-			theme: theme ?? 'catppuccin-latte'
+			theme: theme ?? 'catppuccin-mocha'
 		}).then((html) => {
 			const value = html.match(/background-color:#([a-zA-Z0-9]{6})/gs)
 			if (!value) return
@@ -124,10 +124,17 @@ export default function ShikiEditor() {
 				}}
 				onPointerUp={() => setIsDragging(false)}
 				onPointerLeave={() => setIsDragging(false)}
+				onWheel={(e) => {
+					if (e.ctrlKey || e.metaKey) {
+						e.preventDefault()
+						const delta = e.deltaY * -0.001
+						setViewScale((prev) => Math.min(Math.max(0.1, prev + delta), 4))
+					}
+				}}
 			>
 				<div
 					style={{
-						transform: `translate(${pos.x}px, ${pos.y}px)`,
+						transform: `translate(${pos.x}px, ${pos.y}px) scale(${viewScale})`,
 						transition: isDragging ? 'none' : 'transform 0.2s cubic-bezier(0,0,0.2,1)'
 					}}
 				>
@@ -138,7 +145,7 @@ export default function ShikiEditor() {
 							className="text-neutral-300 dark:text-neutral-700 animate-pulse"
 						/>
 					) : (
-						<section className="zoom-sm border border-neutral-200 dark:border-neutral-700 rounded-2xl overflow-hidden shadow-2xl shadow-black/5">
+						<section className="border border-neutral-200 dark:border-neutral-700 rounded-2xl overflow-hidden shadow-2xl shadow-black/5">
 							<div
 								ref={codeRef}
 								className="relative min-w-52 max-w-7xl"
@@ -378,7 +385,7 @@ export default function ShikiEditor() {
 
 					{/* Sliders */}
 					<label className="flex flex-col gap-1 min-w-28 group">
-						<span className="text-[10px] uppercase tracking-wider text-neutral-400 font-medium ml-0.5 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">Scale</span>
+						<span className="text-[10px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400 font-medium ml-0.5 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">Scale</span>
 						<div className="flex items-center gap-2">
 							<input
 								type="range"
@@ -406,7 +413,7 @@ export default function ShikiEditor() {
 					</label>
 
 					<label className="flex flex-col gap-1 min-w-28 group">
-						<span className="text-[10px] uppercase tracking-wider text-neutral-400 font-medium ml-0.5 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">Spacing</span>
+						<span className="text-[10px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400 font-medium ml-0.5 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">Spacing</span>
 						<div className="flex items-center gap-2">
 							<input
 								type="range"
@@ -431,7 +438,7 @@ export default function ShikiEditor() {
 					</label>
 
 					<label className="flex flex-col gap-1 min-w-28 group">
-						<span className="text-[10px] uppercase tracking-wider text-neutral-400 font-medium ml-0.5 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">Blur</span>
+						<span className="text-[10px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400 font-medium ml-0.5 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">Blur</span>
 						<div className="flex items-center gap-2">
 							<input
 								type="range"
@@ -456,7 +463,7 @@ export default function ShikiEditor() {
 					</label>
 
 					<label className="flex flex-col gap-1 min-w-28 group">
-						<div className="flex justify-between items-center text-[10px] uppercase tracking-wider text-neutral-400 font-medium ml-0.5 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">
+						<div className="flex justify-between items-center text-[10px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400 font-medium ml-0.5 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
 							<span>Opacity</span>
 							<span>{opacity}</span>
 						</div>
@@ -496,7 +503,7 @@ export default function ShikiEditor() {
 					<div className="w-px h-6 bg-neutral-900/10 dark:bg-white/10" />
 
 					<label className="flex flex-col gap-1 min-w-24 flex-1">
-						<span className="text-[10px] uppercase tracking-wider text-neutral-400 font-medium ml-0.5">Title</span>
+						<span className="text-[10px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400 font-medium ml-0.5">Title</span>
 						<input
 							type="text"
 							value={title ?? ''}
@@ -507,7 +514,7 @@ export default function ShikiEditor() {
 					</label>
 
 					<label className="flex flex-col gap-1 min-w-24">
-						<span className="text-[10px] uppercase tracking-wider text-neutral-400 font-medium ml-0.5">Lang</span>
+						<span className="text-[10px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400 font-medium ml-0.5">Lang</span>
 						<select
 							value={language ?? 'tsx'}
 							onChange={(e) => setLanguage(e.target.value)}
@@ -520,7 +527,7 @@ export default function ShikiEditor() {
 					</label>
 
 					<label className="flex flex-col gap-1 min-w-24">
-						<span className="text-[10px] uppercase tracking-wider text-neutral-400 font-medium ml-0.5">Theme</span>
+						<span className="text-[10px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400 font-medium ml-0.5">Theme</span>
 						<select
 							value={theme ?? 'catppuccin-latte'}
 							onChange={(e) => setTheme(e.target.value)}
@@ -533,14 +540,16 @@ export default function ShikiEditor() {
 					</label>
 
 					<label className="flex flex-col gap-1 min-w-32">
-						<span className="text-[10px] uppercase tracking-wider text-neutral-400 font-medium ml-0.5">Font</span>
-						<input
-							type="text"
-							value={font ?? ''}
+						<span className="text-[10px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400 font-medium ml-0.5">Font</span>
+						<select
+							value={font ?? 'JetBrains Mono'}
 							onChange={(e) => setFont(e.target.value)}
-							placeholder="Buffer"
-							className="w-full bg-transparent outline-none font-medium text-sm truncate"
-						/>
+							className="w-full bg-transparent outline-none font-medium text-sm appearance-none cursor-pointer"
+						>
+							{fonts.map((f) => (
+								<option key={f} value={f}>{f}</option>
+							))}
+						</select>
 					</label>
 
 					<div className="w-px h-6 bg-neutral-900/10 dark:bg-white/10" />
