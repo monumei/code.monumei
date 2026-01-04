@@ -1,16 +1,17 @@
 export const defaultCode = `
-import { Elysia } from 'elysia'
+export const App = () => {
+    useEffect(() => {
+        const Card = create('card', [
+            create('title'),
+            create('text')
+        ])
 
-new Elysia()
-  .get('/', () => ({
-    status: 'online',
-    version: '2026.0.0',
-    message: 'Happy New Year! 🚀'
-  }))
-  .listen(2026, ({ hostname, port }) => {
-    console.log('> [READY] 2026 is running at http://{hostname}:{port}')
-  })`
+        console.log(Card)
+    }, [])
 
+    return <div>Check Console</div>
+}
+`
 export const themes = [
 	'andromeeda',
 	'aurora-x',
