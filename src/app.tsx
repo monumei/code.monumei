@@ -8,7 +8,7 @@ import { useLocalStorage } from 'react-use'
 
 import { defaultCode, languages, themes } from './constant'
 import { isLight } from './utils/luma'
-import { compressImage, isSafari } from './utils/compress'
+import { compressImage } from './utils/compress'
 import clsx from 'clsx'
 
 export default function ShikiEditor() {
@@ -21,10 +21,10 @@ export default function ShikiEditor() {
 
 	const [language, setLanguage] = useLocalStorage<string>('language')
 	const [theme, setTheme] = useLocalStorage<string>('theme')
-	const [font, setFont, delFont] = useLocalStorage<string>('font')
-	const [scale, setScale, delScale] = useLocalStorage<number>('scale')
-	const [spacing, setSpacing, delSpacing] = useLocalStorage<number>('spacing')
-	const [blur, setBlur, delBlur] = useLocalStorage<number>('blur')
+	const [font, setFont] = useLocalStorage<string>('font')
+	const [scale, setScale] = useLocalStorage<number>('scale')
+	const [spacing, setSpacing] = useLocalStorage<number>('spacing')
+	const [blur, setBlur] = useLocalStorage<number>('blur')
 	const [layout, setLayout] = useLocalStorage<number>('layout', 1)
 	const [opacity, setOpacity] = useLocalStorage<number>('opacity', 0.8)
 	const [title, setTitle] = useLocalStorage<string>('title')
@@ -34,12 +34,7 @@ export default function ShikiEditor() {
 		'color-scheme',
 		'dark'
 	)
-
-	const [showNotice, setShowNotice] = useLocalStorage<boolean>(
-		'show-notice',
-		true
-	)
-
+	
 	const [pos, setPos] = useState({ x: 0, y: 0 })
 	const [isDragging, setIsDragging] = useState(false)
 	const dragStart = useRef({ x: 0, y: 0 })

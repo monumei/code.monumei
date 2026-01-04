@@ -1,15 +1,30 @@
-export const defaultCode = `import { Elysia, t } from 'elysia'
-import { openapi } from '@elysiajs/openapi'
+export const defaultCode = `import { useEffect } from 'react'
 
-const app = new Elysia()
-    .use(openapi())
-    .get('/', { test: 'hello' })
-    .post('/json', ({ body, status }) => body, {
-        body: t.Object({
-            hello: t.String()
-        })
-    })
-    .listen(3000)`
+type Node = {
+    tag: string
+    children?: Node[]
+}
+
+const create = (
+    tag: string,
+    children: Node[] = []
+): Node => ({
+    tag,
+    children
+})
+
+export const App = () => {
+    useEffect(() => {
+        const Card = create('card', [
+            create('title'),
+            create('text')
+        ])
+
+        console.log(Card)
+    }, [])
+
+    return <div>CHECK CONSOLE</div>
+}`
 
 export const themes = [
 	'andromeeda',
