@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, type CSSProperties } from 'react'
 
-import domToImage from 'dom-to-image'
+import { toJpeg } from 'html-to-image'
 import { Image, ArrowDownToLine, Brush, Minus, X, Square } from 'lucide-react'
 
 import { codeToHtml } from 'shiki'
@@ -73,25 +73,18 @@ export default function ShikiEditor() {
 		else document.documentElement.classList.remove('dark')
 	}, [colorScheme])
 
-	function saveImage() {
+	async function saveImage() {
 		if (!codeRef.current) return
 
-		domToImage
-			.toJpeg(codeRef.current, {
-				quality: 1,
-				width: codeRef.current.clientWidth * 4,
-				height: codeRef.current.clientHeight * 4,
-				style: {
-					transform: 'scale(4)',
-					transformOrigin: 'top left'
-				}
-			})
-			.then((dataUrl) => {
-				const link = document.createElement('a')
-				link.download = 'code-monumei.jpg'
-				link.href = dataUrl
-				link.click()
-			})
+		toJpeg(codeRef.current, {
+			quality: 1,
+			pixelRatio: 4
+		}).then((dataUrl) => {
+			const link = document.createElement('a')
+			link.download = 'code-monumei.jpg'
+			link.href = dataUrl
+			link.click()
+		})
 	}
 
 	return (
