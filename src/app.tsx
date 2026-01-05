@@ -91,7 +91,7 @@ export default function ShikiEditor() {
 		<>
 			<main
 				className={clsx(
-					'fixed inset-0 flex justify-center items-center w-full min-h-dvh pt-8 pb-48 overflow-hidden select-none',
+					'fixed inset-0 flex justify-center items-center w-full min-h-dvh pt-8 pb-48 overflow-hidden select-none touch-none',
 					isDragging ? 'cursor-grabbing' : 'cursor-grab'
 				)}
 				onPointerDown={(e) => {
@@ -348,10 +348,10 @@ export default function ShikiEditor() {
 					)}
 				</div>
 			</main>
-			<aside className="fixed z-30 left-1/2 bottom-8 flex flex-col gap-3 -translate-x-1/2 p-3 text-sm text-neutral-700 dark:text-neutral-300 bg-white/60 dark:bg-neutral-900/60 backdrop-blur-2xl rounded-[32px] border border-white/40 dark:border-white/20 shadow-2xl shadow-black/10 animate-in fade-in slide-in-from-bottom-8 duration-500 after:absolute after:inset-0 after:rounded-[32px] after:bg-gradient-to-b after:from-white/40 after:to-transparent after:pointer-events-none dark:after:from-white/10">
+			<aside className="fixed z-30 left-1/2 bottom-8 flex flex-col gap-3 -translate-x-1/2 p-3 text-sm text-neutral-700 dark:text-neutral-300 bg-white/60 dark:bg-neutral-900/60 backdrop-blur-2xl rounded-[32px] border border-white/40 dark:border-white/20 shadow-2xl shadow-black/10 animate-in fade-in slide-in-from-bottom-8 duration-500 after:absolute after:inset-0 after:rounded-[32px] after:bg-gradient-to-b after:from-white/40 after:to-transparent after:pointer-events-none dark:after:from-white/10 max-w-[calc(100vw-2rem)] w-auto">
 				
 				{/* Top Row: Controls */}
-				<div className="flex items-center gap-4 px-2">
+				<div className="flex items-center gap-4 px-2 overflow-x-auto no-scrollbar w-full mask-linear-x">
 					{/* Layout */}
 					<div className="flex items-center gap-0.5 bg-black/5 dark:bg-white/5 p-1 rounded-xl">
 						{[1, 2, 3, 4, 5].map((key) => (
@@ -473,7 +473,7 @@ export default function ShikiEditor() {
 				</div>
 
 				{/* Bottom Row: Content & Meta */}
-				<div className="flex items-center gap-4 px-2">
+				<div className="flex items-center gap-4 px-2 overflow-x-auto no-scrollbar w-full mask-linear-x">
 					<button
 						className="flex justify-center items-center size-10 interact:bg-black/5 dark:interact:bg-white/10 interact:scale-105 rounded-xl transition-all cursor-pointer text-neutral-600 dark:text-neutral-300"
 						onClick={() => fileElementRef.current?.click()}

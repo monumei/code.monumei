@@ -104,3 +104,16 @@ input[type='range']:focus::-webkit-slider-runnable-track {
 .dark input[type='range']:focus::-webkit-slider-runnable-track {
 	background: rgba(255,255,255,0.25);
 }
+
+@layer utilities {
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+	.mask-linear-x {
+		mask-image: linear-gradient(to right, transparent 0%, black 0.5rem, black calc(100% - 0.5rem), transparent 100%);
+	}
+}
